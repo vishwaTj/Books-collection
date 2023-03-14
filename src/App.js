@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
 import axios from 'axios';
@@ -16,18 +16,33 @@ const App = () => {
   //fetchBooks(); // --> this calls the func again which inturn
                 // set state whenstate changes the entire dom gets called again causing an infinite loop
   
-  const EditBookbyId = (id, newTitle) => {
+
+  useEffect(()=> {
+    fetchBooks();
+  },[])
+
+  const EditBookbyId = async (id, newTitle) => {
+     const response = await axios.put(`http://localhost:3001/books/${id}`,{
+      title:newTitle
+     })
+
+
+     console.log(response);
+
        const updateBooks = books.map((book)=> {
           if(book.id === id){
-            return book = {...book, title:newTitle}
+            return book = { ...book, ...response.data };
           }
 
           return book;  
           });
+
       setBooks(updateBooks);    
   }
 
-  const deleteBookById = (id) =>{
+  const deleteBookById = async (id) =>{
+    const response = await axios.delete(`http://localhost:3001/books/${id}`);
+    
      const updatedBooks = books.filter((book) => {
        return book.id!==id;
      })
