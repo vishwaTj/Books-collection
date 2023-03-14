@@ -12,14 +12,25 @@ const Bookshow = ({book, onDelete, onEdit}) => {
      setShowEdit(!showEdit);
   }
 
+  const handleSubmit = (id, newTitle) => {
+    onEdit(id, newTitle);
+    setShowEdit(false);
+  }
+
   let content = <h3>{book.title}</h3>
   if(showEdit){
-    content =<BookEdit book={book} onEdit={onEdit} EditStatus={setShowEdit}/>;
+    content =<BookEdit book={book} handleSubmit={handleSubmit}/>;
   }
+
+  // onEdit={onEdit} EditStatus={setShowEdit}
 
   return (
     <div className='book-show'>
-      {content}
+      <img
+        alt="books"
+        src={`https://picsum.photos/seed/${book.id}/300/200`} // setting a random value to assign it to random id
+      />
+      <div>{content}</div>
       <div className='actions'>
         <button className='edit' onClick={handleEditClick}>
           Edit
