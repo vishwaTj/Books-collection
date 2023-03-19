@@ -3,10 +3,11 @@ import { useContext } from 'react';
 import BooksContext from '../context/books';
 import BookShow from './Bookshow';
 
-const BookList = ({books, onDelete, onEdit}) => {
+const BookList = () => {
+  const {books} = useContext(BooksContext);
 
   const renderedBooks = books.map((book) =>{
-    return <BookShow onDelete={onDelete} key={book.id}  book={book} onEdit={onEdit} />;
+    return <BookShow key={book.id}  book={book} />;
   })
   return (
     <div className='book-list'>
